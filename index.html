@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AfROB Institutions Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #map { height: 100vh; width: 100%; }
+    body { margin: 0; padding: 0; font-family: sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Initialize map
+    var map = L.map('map').setView([0, 20], 3);
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Sample data for institutions
+    const institutions = [
+      {
+        name: "Carnegie Mellon University Africa",
+        type: "University",
+        country: "Rwanda",
+        coords: [-1.9441, 30.0619],
+        website: "https://www.cmuafrica.africa",
+        description: "Leading robotics and AI education center in East Africa."
+      },
+      {
+        name: "University of Lagos",
+        type: "University",
+        country: "Nigeria",
+        coords: [6.5166, 3.3869],
+        website: "https://unilag.edu.ng",
+        description: "Researching intelligent systems and automation."
+      },
+      {
+        name: "Injaz Robotics",
+        type: "Startup",
+        country: "Morocco",
+        coords: [33.5899, -7.6039],
+        website: "https://injazrobotics.com",
+        description: "Innovating local robotics solutions."
+      }
+    ];
+
+    // Add markers to map
+    institutions.forEach(inst => {
+      const popupContent = `
+        <strong>${inst.name}</strong><br>
+        Type: ${inst.type}<br>
+        Country: ${inst.country}<br>
+        <a href="${inst.website}" target="_blank">Website</a><br>
+        <em>${inst.description}</em>
+      `;
+      L.marker(inst.coords).addTo(map).bindPopup(popupContent);
+    });
+  </script>
+</body>
+</html>
