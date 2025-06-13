@@ -42,11 +42,16 @@
         bounds = L.latLngBounds(southWest, northEast);
     map.setMaxBounds(bounds);
 
-    // Load Africa GeoJSON boundaries
-    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries/Africa.geo.json')
+    // Load Africa-only polygons from full country dataset
+    fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
       .then(response => response.json())
       .then(geojson => {
-        L.geoJson(geojson, {
+        const africaOnly = {
+          type: 'FeatureCollection',
+          features: geojson.features.filter(f => f.properties.CONTINENT === 'Africa')
+        };
+
+        L.geoJson(africaOnly, {
           style: {
             fillColor: '#cccccc',
             weight: 1,
