@@ -29,20 +29,13 @@
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     var map = L.map('map', {
-      minZoom: 3,
-      maxZoom: 8,
+      minZoom: 4,
+      maxZoom: 7,
       zoomControl: true,
       maxBoundsViscosity: 1.0
     }).setView([1.5, 20], 4);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 8,
-      minZoom: 3,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
 
     var southWest = L.latLng(-35, -25),
         northEast = L.latLng(38, 55),
