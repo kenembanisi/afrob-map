@@ -29,6 +29,7 @@
   <div id="map"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     var map = L.map('map', {
       minZoom: 4,
@@ -37,21 +38,22 @@
       maxBoundsViscosity: 1.0
     }).setView([1.5, 20], 4);
 
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 8,
+      minZoom: 3,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
     var southWest = L.latLng(-35, -25),
         northEast = L.latLng(38, 55),
         bounds = L.latLngBounds(southWest, northEast);
     map.setMaxBounds(bounds);
 
-    // Load Africa-only polygons from full country dataset
-    fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson')
+    // Load Africa GeoJSON boundaries
+    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries/Africa.geo.json')
       .then(response => response.json())
       .then(geojson => {
-        const africaOnly = {
-          type: 'FeatureCollection',
-          features: geojson.features.filter(f => f.properties.CONTINENT === 'Africa')
-        };
-
-        L.geoJson(africaOnly, {
+        L.geoJson(geojson, {
           style: {
             fillColor: '#cccccc',
             weight: 1,
