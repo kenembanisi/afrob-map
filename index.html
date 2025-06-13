@@ -22,6 +22,10 @@
       border: 2px solid #ccc;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
+      background-color: #d3d3d3; /* grey background */
+    }
+    .leaflet-tile-container img {
+      filter: grayscale(100%) brightness(80%);
     }
   </style>
 </head>
@@ -30,23 +34,26 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // Initialize map centered over Africa
-    var map = L.map('map').setView([1.5, 20], 3.5);
+    // Initialize map centered over Africa with zoom control
+    var map = L.map('map', {
+      minZoom: 3,
+      maxZoom: 8,
+      zoomControl: true,
+      maxBoundsViscosity: 1.0
+    }).setView([1.5, 20], 4);
 
-    // Add OpenStreetMap tile layer
+    // Add OpenStreetMap tile layer with muted appearance
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
+      maxZoom: 8,
+      minZoom: 3,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Restrict the map view to Africa
-    var southWest = L.latLng(-40, -30),
-        northEast = L.latLng(40, 60),
+    // Restrict the map view to Africa only
+    var southWest = L.latLng(-35, -25),
+        northEast = L.latLng(38, 55),
         bounds = L.latLngBounds(southWest, northEast);
     map.setMaxBounds(bounds);
-    map.on('drag', function () {
-      map.panInsideBounds(bounds, { animate: false });
-    });
 
     // Sample data for institutions
     const institutions = [
