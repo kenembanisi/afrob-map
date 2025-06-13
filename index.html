@@ -6,8 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
-    #map { height: 100vh; width: 100%; }
-    body { margin: 0; padding: 0; font-family: sans-serif; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #map {
+      height: 90vh;
+      width: 90vw;
+      border: 2px solid #ccc;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -15,14 +30,23 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // Initialize map
-    var map = L.map('map').setView([0, 20], 3);
+    // Initialize map centered over Africa
+    var map = L.map('map').setView([1.5, 20], 3.5);
 
     // Add OpenStreetMap tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
+
+    // Restrict the map view to Africa
+    var southWest = L.latLng(-40, -30),
+        northEast = L.latLng(40, 60),
+        bounds = L.latLngBounds(southWest, northEast);
+    map.setMaxBounds(bounds);
+    map.on('drag', function () {
+      map.panInsideBounds(bounds, { animate: false });
+    });
 
     // Sample data for institutions
     const institutions = [
